@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model
+namespace Dto.Request
 {
-    public class CustomerModel : IModel
+    public class CustomerRequestDto
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Adress { get; set; }

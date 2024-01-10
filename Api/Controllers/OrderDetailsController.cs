@@ -4,6 +4,8 @@ using Core.Utility.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Model.Response;
+using Model.Request;
 
 namespace Api.Controllers
 {
@@ -18,27 +20,27 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IDataResult<List<OrderDetailModel>>> GetAll()
+        public async Task<IDataResult<List<OrderDetailResponseModel>>> GetAll()
         {
             return await _orderDetailBusiness.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<IDataResult<OrderDetailModel>> GetById([FromRoute] int id)
+        public async Task<IDataResult<OrderDetailResponseModel>> GetById([FromRoute] int id)
         {
             return await _orderDetailBusiness.GetByIdAsync(id);
         }
 
         [HttpPost]
-        public async Task<IResult> Add(OrderDetailModel orderDetailModel)
+        public async Task<IResult> Add(OrderDetailRequestModel model)
         {
-            return await _orderDetailBusiness.AddAsync(orderDetailModel);
+            return await _orderDetailBusiness.AddAsync(model);
         }
 
         [HttpPut]
-        public async Task<IResult> Update(OrderDetailModel orderDetailModel)
+        public async Task<IResult> Update(UpdateOrderDetailRequestModel model)
         {
-            return await _orderDetailBusiness.UpdateAsync(orderDetailModel);
+            return await _orderDetailBusiness.UpdateAsync(model);
         }
 
         [HttpDelete("{id}")]

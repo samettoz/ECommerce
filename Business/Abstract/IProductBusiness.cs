@@ -1,7 +1,7 @@
 ﻿
 using Core.Utility.Results;
-using Entity;
-using Model;
+using Model.Request;
+using Model.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +12,10 @@ namespace Business.Abstract
 {
     public interface IProductBusiness
     {
-        Task<IResult> AddAsync(ProductModel productModel);
-        Task<IResult> UpdateAsync(ProductModel productModel);
+        Task<IResult> AddAsync(ProductRequestModel model);
+        Task<IResult> UpdateAsync(UpdateProductRequestModel model);
         Task<IResult> DeleteAsync(int id);
-        Task<IDataResult<List<ProductModel>>> GetAllAsync();
-        Task<IDataResult<ProductModel>> GetByIdAsync(int id);
+        Task<IDataResult<List<ProductResponseModel>>> GetAllAsync();
+        Task<IDataResult<ProductResponseModel>> GetByIdAsync(int id);
     }
 }

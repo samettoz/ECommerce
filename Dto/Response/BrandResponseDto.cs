@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto
+namespace Dto.Response
 {
-    public class BrandDto : IDto
+    public class BrandResponseDto
     {
         public int Id { get; set; }
         public string BrandName { get; set; }

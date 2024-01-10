@@ -2,7 +2,8 @@
 
 using Core.Repository;
 using Core.Utility.Results;
-using Dto;
+using Dto.Request;
+using Dto.Response;
 using DtoMapper;
 using Entity;
 using Service.Services.Abstract;
@@ -12,17 +13,15 @@ namespace Service.Services.Concrete
     public class OrderDetailService : IOrderDetailService
     {
         IEntityRepositoryBase<OrderDetail> _orderDetailRepository;
-        IDtoMapper<OrderDetailDto, OrderDetail> _dtoMapper;
-        public OrderDetailService(IEntityRepositoryBase<OrderDetail> orderDetailRepository, IDtoMapper<OrderDetailDto, OrderDetail> dtoMapper)
+        public OrderDetailService(IEntityRepositoryBase<OrderDetail> orderDetailRepository)
         {
             _orderDetailRepository = orderDetailRepository;
-            _dtoMapper = dtoMapper;
         }
 
 
-        public async Task AddAsync(OrderDetailDto orderDetailDto)
+        public async Task AddAsync(OrderDetailRequestDto dto)
         {
-            var orderDetail = _dtoMapper.MapToEntity(orderDetailDto);
+            var orderDetail = OrderDetailDtoMapper.MapToEntity(dto);
             await _orderDetailRepository.AddAsync(orderDetail);
         }
 
@@ -32,25 +31,25 @@ namespace Service.Services.Concrete
         }
 
 
-        public async Task<OrderDetailDto> GetByIdAsync(int id)
+        public async Task<OrderDetailResponseDto> GetByIdAsync(int id)
         {
             var orderDetail = await _orderDetailRepository.GetAsync(od => od.Id == id);
-            return _dtoMapper.MapToDto(orderDetail);
+            return OrderDetailDtoMapper.MapToDto(orderDetail);
         }
 
 
 
 
-        public async Task UpdateAsync(OrderDetailDto orderDetailDto)
+        public async Task UpdateAsync(UpdateOrderDetailRequestDto dto)
         {
-            var orderDetail = _dtoMapper.MapToEntity(orderDetailDto);
+            var orderDetail = OrderDetailDtoMapper.MapUpdateOrderDetailRequestDtoToEntity(dto);
             await _orderDetailRepository.UpdateAsync(orderDetail);
         }
 
-        public async Task<List<OrderDetailDto>> GetAllAsync()
+        public async Task<List<OrderDetailResponseDto>> GetAllAsync()
         {
             var orderDetails = await _orderDetailRepository.GetAllAsync();
-            return orderDetails.Select(od => _dtoMapper.MapToDto(od)).ToList();
+            return orderDetails.Select(od => OrderDetailDtoMapper.MapToDto(od)).ToList();
         }
 
     }

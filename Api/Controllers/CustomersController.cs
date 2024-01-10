@@ -4,6 +4,8 @@ using Core.Utility.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Model.Response;
+using Model.Request;
 
 namespace Api.Controllers
 {
@@ -18,27 +20,27 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IDataResult<List<CustomerModel>>> GetAll()
+        public async Task<IDataResult<List<CustomerResponseModel>>> GetAll()
         {
             return await _customerBusiness.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<IDataResult<CustomerModel>> GetById(int id)
+        public async Task<IDataResult<CustomerResponseModel>> GetById(int id)
         {
             return await _customerBusiness.GetByIdAsync(id);
         }
 
         [HttpPost]
-        public async Task<IResult> Add(CustomerModel customerModel)
+        public async Task<IResult> Add(CustomerRequestModel model)
         {
-            return await _customerBusiness.AddAsync(customerModel);
+            return await _customerBusiness.AddAsync(model);
         }
 
         [HttpPut]
-        public async Task<IResult> Update(CustomerModel customerModel)
+        public async Task<IResult> Update(UpdateCustomerRequestModel model)
         {
-            return await _customerBusiness.UpdateAsync(customerModel);
+            return await _customerBusiness.UpdateAsync(model);
         }
 
         [HttpDelete]

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model
+namespace Model.Request
 {
-    public interface IModel
+    public class BrandRequestModel
     {
+        public string BrandName { get; set; }
     }
 }

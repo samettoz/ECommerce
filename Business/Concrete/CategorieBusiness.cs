@@ -1,7 +1,8 @@
 ﻿using Business.Abstract;
 using Core.Utility.Results;
-using Dto;
-using Model;
+using Dto.Response;
+using Model.Request;
+using Model.Response;
 using ModelMapper;
 using Service.Services.Abstract;
 using System;
@@ -15,15 +16,13 @@ namespace Business.Concrete
     public class CategorieBusiness : ICategorieBusiness
     {
         ICategorieService _categorieService;
-        IModelMapper<CategorieModel, CategorieDto> _modelMapper;
-        public CategorieBusiness(ICategorieService categorieService, IModelMapper<CategorieModel, CategorieDto> modelMapper)
+        public CategorieBusiness(ICategorieService categorieService)
         {
             _categorieService = categorieService;
-            _modelMapper = modelMapper;
         }
-        public async Task<IResult> AddAsync(CategorieModel categorieModel)
+        public async Task<IResult> AddAsync(CategorieRequestModel model)
         {
-            var categorieDto = _modelMapper.MapToDto(categorieModel);
+            var categorieDto = CategorieModelMapper.MapToDto(model);
             await _categorieService.AddAsync(categorieDto);
             return new SuccessResult();
         }
@@ -34,22 +33,22 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<List<CategorieModel>>> GetAllAsync()
+        public async Task<IDataResult<List<CategorieResponseModel>>> GetAllAsync()
         {
             var categorieDtos = await _categorieService.GetAllAsync();
-            var categorieModels = categorieDtos.Select(categorieDto => _modelMapper.MapToModel(categorieDto)).ToList();
-            return new SuccessDataResult<List<CategorieModel>>(categorieModels);
+            var categorieModels = categorieDtos.Select(categorieDto => CategorieModelMapper.MapToModel(categorieDto)).ToList();
+            return new SuccessDataResult<List<CategorieResponseModel>>(categorieModels);
         }
 
-        public async Task<IDataResult<CategorieModel>> GetById(int id)
+        public async Task<IDataResult<CategorieResponseModel>> GetById(int id)
         {
             var categorieDto = await _categorieService.GetByIdAsync(id);
-            return new SuccessDataResult<CategorieModel>(_modelMapper.MapToModel(categorieDto));
+            return new SuccessDataResult<CategorieResponseModel>(CategorieModelMapper.MapToModel(categorieDto));
         }
 
-        public async Task<IResult> UpdateAsync(CategorieModel categorieModel)
+        public async Task<IResult> UpdateAsync(UpdateCategorieRequestModel model)
         {
-            var categorieDto = _modelMapper.MapToDto(categorieModel);
+            var categorieDto = CategorieModelMapper.MapToUpdateRequestDto(model);
             await _categorieService.UpdateAsync(categorieDto);
             return new SuccessResult();
         }

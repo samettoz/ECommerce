@@ -1,5 +1,7 @@
-﻿using Dto;
-using Model;
+﻿using Dto.Request;
+using Dto.Response;
+using Model.Request;
+using Model.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,23 +10,41 @@ using System.Threading.Tasks;
 
 namespace ModelMapper
 {
-    public class CategorieModelMapper : IModelMapper<CategorieModel, CategorieDto>
+    public static class CategorieModelMapper 
     {
-        public CategorieDto MapToDto(CategorieModel model)
+       
+        public static CategorieRequestDto MapToDto(CategorieRequestModel model)
         {
-            return new CategorieDto
+            if (model == null)
+                return null;
+
+            return new CategorieRequestDto
             {
                 CategorieName = model.CategorieName,
-                Id = model.Id
             };
         }
 
-        public CategorieModel MapToModel(CategorieDto dto)
+        public static CategorieResponseModel MapToModel(CategorieResponseDto dto)
         {
-            return new CategorieModel
+            if (dto == null)
+                return null;
+
+            return new CategorieResponseModel
             {
                 Id = dto.Id,
                 CategorieName = dto.CategorieName
+            };
+        }
+
+        public static UpdateCategorieRequestDto MapToUpdateRequestDto(UpdateCategorieRequestModel model)
+        {
+            if (model == null)
+                return null;
+
+            return new UpdateCategorieRequestDto
+            {
+                Id = model.Id,
+                Categoriename = model.CategorieName,
             };
         }
     }

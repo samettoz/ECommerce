@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto
+namespace Model.Request
 {
-    public class CategorieDto : IDto
+    public class UpdateBrandRequestModel
     {
         public int Id { get; set; }
-        public string CategorieName { get; set; }     
+        public string BrandName { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model
+namespace Dto.Request
 {
-    public class BrandModel : IModel
+    public class UpdateBrandRequestDto
     {
         public int Id { get; set; }
         public string BrandName { get; set; }

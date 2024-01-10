@@ -1,4 +1,5 @@
-﻿using Dto;
+﻿using Dto.Request;
+using Dto.Response;
 using Entity;
 using System;
 using System.Collections.Generic;
@@ -8,23 +9,40 @@ using System.Threading.Tasks;
 
 namespace DtoMapper
 {
-    public class CategorieDtoMapper : IDtoMapper<CategorieDto, Categorie>
+    public static class CategorieDtoMapper 
     {
-        public CategorieDto MapToDto(Categorie entity)
+        public static CategorieResponseDto MapToDto(Categorie entity)
         {
-            return new CategorieDto
+            if (entity == null)
+                return null;
+
+            return new CategorieResponseDto
             {
                 Id = entity.Id,
                 CategorieName = entity.CategorieName
             };
         }
 
-        public Categorie MapToEntity(CategorieDto dto)
+        public static Categorie MapToEntity(CategorieRequestDto dto)
         {
+            if (dto == null)
+                return null;
+
             return new Categorie
             {
                 CategorieName = dto.CategorieName,
-                Id = dto.Id
+            };
+        }
+
+        public static Categorie MapUpdateCategorieRequestDtoToEntity(UpdateCategorieRequestDto dto)
+        {
+            if (dto == null)
+                return null;
+
+            return new Categorie
+            {
+                Id = dto.Id,
+                CategorieName = dto.Categoriename
             };
         }
     }

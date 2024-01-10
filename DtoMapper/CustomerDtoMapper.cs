@@ -1,4 +1,5 @@
-﻿using Dto;
+﻿using Dto.Request;
+using Dto.Response;
 using Entity;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,14 @@ using System.Threading.Tasks;
 
 namespace DtoMapper
 {
-    public class CustomerDtoMapper : IDtoMapper<CustomerDto, Customer>
+    public static class CustomerDtoMapper 
     {
-        public CustomerDto MapToDto(Customer entity)
+        public static CustomerResponseDto MapToDto(Customer entity)
         {
-            return new CustomerDto
+            if (entity == null)
+                return null;
+
+            return new CustomerResponseDto
             {
                 Id = entity.Id,
                 Adress = entity.Adress,
@@ -25,9 +29,29 @@ namespace DtoMapper
             };
         }
 
-        public Customer MapToEntity(CustomerDto dto)
+        public static Customer MapToEntity(CustomerRequestDto dto)
         {
+            if (dto == null)
+                return null;
+
             return new Customer
+            {
+                Adress = dto.Adress,
+                City = dto.City,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Password = dto.Password,
+                Phone = dto.Phone,
+                UserName = dto.UserName
+            };
+        }
+
+        public static Customer MapUpdateCustomerRequestDtoToEntity(UpdateCustomerRequestDto dto)
+        {
+            if (dto == null)
+                return null;
+
+            return new Customer()
             {
                 Id = dto.Id,
                 Adress = dto.Adress,

@@ -1,5 +1,7 @@
 ﻿using Core.Utility.Results;
 using Model;
+using Model.Request;
+using Model.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +12,10 @@ namespace Business.Abstract
 {
     public interface IOrderDetailBusiness
     {
-        Task<IResult> AddAsync(OrderDetailModel orderDetailModel);
-        Task<IResult> UpdateAsync(OrderDetailModel orderDetailModel);
+        Task<IResult> AddAsync(OrderDetailRequestModel model);
+        Task<IResult> UpdateAsync(UpdateOrderDetailRequestModel model);
         Task<IResult> DeleteAsync(int id);
-        Task<IDataResult<List<OrderDetailModel>>> GetAllAsync();
-        Task<IDataResult<OrderDetailModel>> GetByIdAsync(int id);
+        Task<IDataResult<List<OrderDetailResponseModel>>> GetAllAsync();
+        Task<IDataResult<OrderDetailResponseModel>> GetByIdAsync(int id);
     }
 }

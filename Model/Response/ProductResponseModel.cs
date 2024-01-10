@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto
+namespace Model.Response
 {
-    public class ProductDto : IDto
+    public class ProductResponseModel
     {
         public int Id { get; set; }
         public int BrandId { get; set; }
@@ -14,6 +14,5 @@ namespace Dto
         public string ProductName { get; set; }
         public decimal UnitPrice { get; set; }
         public string QuantityPerUnit { get; set; }
-
     }
 }

@@ -3,7 +3,8 @@ using Business.Abstract;
 using Core.Utility.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model;
+using Model.Response;
+using Model.Request;
 
 namespace Api.Controllers
 {
@@ -18,27 +19,27 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IDataResult<List<BrandModel>>> GetAll()
+        public async Task<IDataResult<List<BrandResponseModel>>> GetAll()
         {
             return await _brandBusiness.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<IDataResult<BrandModel>> GetById(int id) 
+        public async Task<IDataResult<BrandResponseModel>> GetById(int id) 
         {
             return await _brandBusiness.GetByIdAsync(id);
         }
 
         [HttpPost]
-        public async Task<IResult> Add(BrandModel brandModel)
+        public async Task<IResult> Add(BrandRequestModel model)
         {
-            return await _brandBusiness.AddAsync(brandModel);
+            return await _brandBusiness.AddAsync(model);
         }
 
         [HttpPut]
-        public async Task<IResult> Update(BrandModel brandModel) 
+        public async Task<IResult> Update(UpdateBrandRequestModel model) 
         {
-            return await _brandBusiness.UpdateAsync(brandModel);
+            return await _brandBusiness.UpdateAsync(model);
         }
         
         [HttpDelete("{id}")]

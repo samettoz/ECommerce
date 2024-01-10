@@ -12,7 +12,7 @@ using Service.Context;
 namespace Service.Migrations
 {
     [DbContext(typeof(ECommerceDbContext))]
-    [Migration("20231219111937_mig_1")]
+    [Migration("20240109145546_mig_1")]
     partial class mig1
     {
         /// <inheritdoc />

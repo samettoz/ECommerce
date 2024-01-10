@@ -1,7 +1,8 @@
 ﻿using Business.Abstract;
 using Core.Utility.Results;
-using Dto;
-using Model;
+using Dto.Response;
+using Model.Request;
+using Model.Response;
 using ModelMapper;
 using Service.Services.Abstract;
 using System;
@@ -16,17 +17,15 @@ namespace Business.Concrete
     public class OrderBusiness : IOrderBusiness
     {
         IOrderService _orderService;
-        IModelMapper<OrderModel, OrderDto> _modelMapper;
 
-        public OrderBusiness(IOrderService orderService, IModelMapper<OrderModel, OrderDto> modelMapper)
+        public OrderBusiness(IOrderService orderService)
         {
-            _modelMapper = modelMapper;
             _orderService = orderService;
         }
 
-        public async Task<IResult> AddAsync(OrderModel orderModel)
+        public async Task<IResult> AddAsync(OrderRequestModel model)
         {
-            var orderDto = _modelMapper.MapToDto(orderModel);
+            var orderDto = OrderModelMapper.MapToDto(model);
             await _orderService.AddAsync(orderDto);
             return new SuccessResult();
         }
@@ -37,22 +36,22 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<List<OrderModel>>> GetAllAsync()
+        public async Task<IDataResult<List<OrderResponseModel>>> GetAllAsync()
         {
             var orderDtos = await _orderService.GetAllAsync();
-            var orderModels = orderDtos.Select(orderDto => _modelMapper.MapToModel(orderDto)).ToList();
-            return new SuccessDataResult<List<OrderModel>>(orderModels);   
+            var orderModels = orderDtos.Select(orderDto => OrderModelMapper.MapToModel(orderDto)).ToList();
+            return new SuccessDataResult<List<OrderResponseModel>>(orderModels);   
         }
 
-        public async Task<IDataResult<OrderModel>> GetByIdAsync(int id)
+        public async Task<IDataResult<OrderResponseModel>> GetByIdAsync(int id)
         {
             var orderDto = await _orderService.GetByIdAsync(id);
-            return new SuccessDataResult<OrderModel>(_modelMapper.MapToModel(orderDto));
+            return new SuccessDataResult<OrderResponseModel>(OrderModelMapper.MapToModel(orderDto));
         }
 
-        public async Task<IResult> UpdateAsync(OrderModel orderModel)
+        public async Task<IResult> UpdateAsync(UpdateOrderRequestModel model)
         {
-            var orderDto = _modelMapper.MapToDto(orderModel);
+            var orderDto = OrderModelMapper.MapToUpdateRequestDto(model);
             await _orderService.UpdateAsync(orderDto);
             return new SuccessResult();
         }

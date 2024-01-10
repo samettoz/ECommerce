@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Model
+namespace Model.Response
 {
-    public class OrderModel : IModel
+    public class OrderResponseModel
     {
         public int Id { get; set; }
         public int CustomerId { get; set; }

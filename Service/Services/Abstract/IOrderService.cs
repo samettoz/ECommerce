@@ -1,17 +1,19 @@
 ﻿
 
 using Core.Utility.Results;
-using Dto;
+using Dto.Request;
+using Dto.Response;
 using Entity;
+using Model.Request;
 
 namespace Service.Services.Abstract
 {
     public interface IOrderService
     {
-        Task AddAsync(OrderDto orderDto);
-        Task UpdateAsync(OrderDto orderDto);
+        Task AddAsync(OrderRequestDto dto);
+        Task UpdateAsync(UpdateOrderRequestDto dto);
         Task DeleteAsync(int id);
-        Task<List<OrderDto>> GetAllAsync();
-        Task<OrderDto> GetByIdAsync(int id);
+        Task<List<OrderResponseDto>> GetAllAsync();
+        Task<OrderResponseDto> GetByIdAsync(int id);
     }
 }

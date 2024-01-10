@@ -1,5 +1,7 @@
-﻿using Dto;
-using Model;
+﻿using Dto.Request;
+using Dto.Response;
+using Model.Request;
+using Model.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,27 +10,47 @@ using System.Threading.Tasks;
 
 namespace ModelMapper
 {
-    public class OrderModelMapper : IModelMapper<OrderModel, OrderDto>
+    public static class OrderModelMapper 
     {
-        public OrderDto MapToDto(OrderModel model)
+        public static OrderRequestDto MapToDto(OrderRequestModel model)
         {
-            return new OrderDto
+            if (model == null)
+                return null;
+
+            
+            return new OrderRequestDto
             {
-                Id = model.Id,
                 CustomerId = model.CustomerId,
                 OrderDate = model.OrderDate,
                 OrderStatus = model.OrderStatus
             };
         }
 
-        public OrderModel MapToModel(OrderDto dto)
+        public static OrderResponseModel MapToModel(OrderResponseDto dto)
         {
-            return new OrderModel
+            if (dto == null)
+                return null;
+
+            return new OrderResponseModel
             {
                 Id = dto.Id,
                 OrderStatus = dto.OrderStatus,
                 OrderDate = dto.OrderDate,
                 CustomerId = dto.CustomerId,
+            };
+        }
+
+        public static UpdateOrderRequestDto MapToUpdateRequestDto(UpdateOrderRequestModel model)
+        {
+            if (model == null)
+                return null;
+
+            return new UpdateOrderRequestDto()
+            {
+                Id = model.Id,
+                CustomerId= model.CustomerId,  
+                OrderDate = model.OrderDate,
+                OrderStatus = model.OrderStatus
             };
         }
     }

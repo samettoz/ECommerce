@@ -2,7 +2,8 @@
 
 using Core.Repository;
 using Core.Utility.Results;
-using Dto;
+using Dto.Request;
+using Dto.Response;
 using DtoMapper;
 using Entity;
 using Service.Services.Abstract;
@@ -12,16 +13,14 @@ namespace Service.Services.Concrete
     public class CustomerService : ICustomerService
     {
         IEntityRepositoryBase<Customer> _customerRepository;
-        IDtoMapper<CustomerDto,  Customer> _dtoMapper;
-        public CustomerService(IEntityRepositoryBase<Customer> customerRepository, IDtoMapper<CustomerDto, Customer> dtoMapper)
+        public CustomerService(IEntityRepositoryBase<Customer> customerRepository)
         {
             _customerRepository = customerRepository;
-            _dtoMapper = dtoMapper;
         }
 
-        public async Task AddAsync(CustomerDto customerDto)
+        public async Task AddAsync(CustomerRequestDto dto)
         {
-            var customer = _dtoMapper.MapToEntity(customerDto);
+            var customer = CustomerDtoMapper.MapToEntity(dto);
             _customerRepository.AddAsync(customer);
         }
 
@@ -30,21 +29,21 @@ namespace Service.Services.Concrete
             await _customerRepository.DeleteAsync(id);
         }
 
-        public async Task<List<CustomerDto>> GetAllAsync()
+        public async Task<List<CustomerResponseDto>> GetAllAsync()
         {
             var customers = await _customerRepository.GetAllAsync();
-            return customers.Select(customer => _dtoMapper.MapToDto(customer)).ToList();
+            return customers.Select(customer => CustomerDtoMapper.MapToDto(customer)).ToList();
         }
 
-        public async Task<CustomerDto> GetByIdAsync(int id)
+        public async Task<CustomerResponseDto> GetByIdAsync(int id)
         {
             var customer = await _customerRepository.GetAsync(c => c.Id == id);
-            return _dtoMapper.MapToDto(customer);
+            return CustomerDtoMapper.MapToDto(customer);
         }
 
-        public async Task UpdateAsync(CustomerDto customerDto)
+        public async Task UpdateAsync(UpdateCustomerRequestDto dto)
         {
-            var customer = _dtoMapper.MapToEntity(customerDto);
+            var customer = CustomerDtoMapper.MapUpdateCustomerRequestDtoToEntity(dto);
             await _customerRepository.UpdateAsync(customer);
         }
     }

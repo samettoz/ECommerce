@@ -1,6 +1,7 @@
 ﻿using Core.Repository;
 using Core.Utility.Results;
-using Dto;
+using Dto.Request;
+using Dto.Response;
 using DtoMapper;
 using Entity;
 
@@ -11,16 +12,13 @@ namespace Service.Services.Concrete
     public class BrandService : IBrandService
     {
         IEntityRepositoryBase<Brand> _brandRepository; 
-        IDtoMapper<BrandDto, Brand> _brandMapper;
-        public BrandService(IEntityRepositoryBase<Brand> brandRepository, IDtoMapper<BrandDto, Brand> brandMapper)
+        public BrandService(IEntityRepositoryBase<Brand> brandRepository)
         {
             _brandRepository = brandRepository;
-            _brandMapper = brandMapper;
         }
-
-        public async Task AddAsync(BrandDto brandDto)
+        public async Task AddAsync(BrandRequestDto dto)
         {
-            var brand = _brandMapper.MapToEntity(brandDto);
+            var brand = BrandDtoMapper.MapToEntity(dto);
             await _brandRepository.AddAsync(brand);
         }
 
@@ -33,22 +31,22 @@ namespace Service.Services.Concrete
             return new SuccessResult();
         }
 
-        public async Task<List<BrandDto>> GetAllAsync()
+        public async Task<List<BrandResponseDto>> GetAllAsync()
         {
             var brands = await _brandRepository.GetAllAsync();
-            return brands.Select(brand => _brandMapper.MapToDto(brand)).ToList();
+            return brands.Select(brand => BrandDtoMapper.MapToDto(brand)).ToList();
         }
 
-        public async Task<BrandDto> GetByIdAsync(int id)
+        public async Task<BrandResponseDto> GetByIdAsync(int id)
         {
             var brand = await _brandRepository.GetAsync(b => b.Id == id);
-            return _brandMapper.MapToDto(brand);
+            return BrandDtoMapper.MapToDto(brand);
             
         }
 
-        public async Task UpdateAsync(BrandDto brandDto)
+        public async Task UpdateAsync(UpdateBrandRequestDto dto)
         {
-            var brand = _brandMapper.MapToEntity(brandDto);
+            var brand = BrandDtoMapper.MapUpdateBrandRequestDtoToEntity(dto);
             await _brandRepository.UpdateAsync(brand);
         }
     }

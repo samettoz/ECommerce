@@ -3,7 +3,8 @@ using Business.Abstract;
 using Core.Utility.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model;
+using Model.Request;
+using Model.Response;
 
 namespace Api.Controllers
 {
@@ -18,13 +19,13 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IDataResult<List<ProductModel>>> GetAll()
+        public async Task<IDataResult<List<ProductResponseModel>>> GetAll()
         {
             return await _productBusiness.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<IDataResult<ProductModel>> GetById(int id)
+        public async Task<IDataResult<ProductResponseModel>> GetById(int id)
         {
             return await _productBusiness.GetByIdAsync(id);
         }
@@ -32,9 +33,9 @@ namespace Api.Controllers
 
 
         [HttpPost]
-        public async Task<IResult> Add(ProductModel productModel)
+        public async Task<IResult> Add(ProductRequestModel model)
         {
-            return await _productBusiness.AddAsync(productModel);
+            return await _productBusiness.AddAsync(model);
         }
 
         [HttpDelete("{id}")]
@@ -44,9 +45,9 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IResult> Update(ProductModel productModel)
+        public async Task<IResult> Update(UpdateProductRequestModel model)
         {
-            return await _productBusiness.UpdateAsync(productModel);
+            return await _productBusiness.UpdateAsync(model);
         }
     }
 }

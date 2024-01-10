@@ -1,4 +1,6 @@
 ﻿using Dto;
+using Dto.Request;
+using Dto.Response;
 using Entity;
 using System;
 using System.Collections.Generic;
@@ -8,11 +10,14 @@ using System.Threading.Tasks;
 
 namespace DtoMapper
 {
-    public class ProductDtoMapper : IDtoMapper<ProductDto,Product>
+    public static class ProductDtoMapper 
     {
-        public ProductDto MapToDto(Product product)
+        public static ProductResponseDto MapToDto(Product product)
         {
-            return new ProductDto
+            if (product == null)
+                return null;
+
+            return new ProductResponseDto
             {
                 Id = product.Id,
                 BrandId = product.BrandId,
@@ -22,17 +27,35 @@ namespace DtoMapper
                 UnitPrice = product.UnitPrice
             };
         }
-        public Product MapToEntity(ProductDto productDto)
+        public static Product MapToEntity(ProductRequestDto dto)
         {
+            if (dto == null)
+                return null;
+
             return new Product
             {
-                BrandId = productDto.BrandId,
-                CategoryId = productDto.CategoryId,
-                ProductName = productDto.ProductName,
-                UnitPrice = productDto.UnitPrice,
-                QuantityPerUnit = productDto.QuantityPerUnit,
-                Id = productDto.Id
+                BrandId = dto.BrandId,
+                CategoryId = dto.CategoryId,
+                ProductName = dto.ProductName,
+                UnitPrice = dto.UnitPrice,
+                QuantityPerUnit = dto.QuantityPerUnit,
                 
+            };
+        }
+
+        public static Product MapUpdateProductRequestDtoToEntity(UpdateProductRequestDto dto)
+        {
+            if (dto == null)
+                return null;
+
+            return new Product
+            {
+                Id = dto.Id,
+                BrandId = dto.BrandId,
+                CategoryId= dto.CategoryId,
+                ProductName = dto.ProductName,
+                UnitPrice = dto.UnitPrice,
+                QuantityPerUnit = dto.QuantityPerUnit,
             };
         }
     }

@@ -1,7 +1,8 @@
 ﻿using Business.Abstract;
 using Core.Utility.Results;
-using Dto;
-using Model;
+using Dto.Response;
+using Model.Request;
+using Model.Response;
 using ModelMapper;
 using Service.Services.Abstract;
 using System;
@@ -15,16 +16,14 @@ namespace Business.Concrete
     public class BrandBusiness : IBrandBusiness
     {
         IBrandService _brandService;
-        IModelMapper<BrandModel, BrandDto> _brandMaper;
-        public BrandBusiness(IBrandService brandService, IModelMapper<BrandModel, BrandDto> brandMapper)
+        public BrandBusiness(IBrandService brandService)
         {
-            _brandMaper = brandMapper;
             _brandService = brandService;
         }
 
-        public async Task<IResult> AddAsync(BrandModel brandModel)
+        public async Task<IResult> AddAsync(BrandRequestModel model)
         {
-            var brandDto = _brandMaper.MapToDto(brandModel);
+            var brandDto = BrandModelMapper.MapToDto(model);
             await _brandService.AddAsync(brandDto);
             return new SuccessResult();
         }
@@ -39,22 +38,22 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<List<BrandModel>>> GetAllAsync()
+        public async Task<IDataResult<List<BrandResponseModel>>> GetAllAsync()
         {
             var brandDtos = await _brandService.GetAllAsync();
-            var brandModel = brandDtos.Select(brand => _brandMaper.MapToModel(brand)).ToList();
-            return new SuccessDataResult<List<BrandModel>>(brandModel);
+            var brandModel = brandDtos.Select(brand => BrandModelMapper.MapToModel(brand)).ToList();
+            return new SuccessDataResult<List<BrandResponseModel>>(brandModel);
         }
 
-        public async Task<IDataResult<BrandModel>> GetByIdAsync(int id)
+        public async Task<IDataResult<BrandResponseModel>> GetByIdAsync(int id)
         {
             var brandDto = await _brandService.GetByIdAsync(id);
-            return new SuccessDataResult<BrandModel>(_brandMaper.MapToModel(brandDto));
+            return new SuccessDataResult<BrandResponseModel>(BrandModelMapper.MapToModel(brandDto));
         }
 
-        public async Task<IResult> UpdateAsync(BrandModel brandModel)
+        public async Task<IResult> UpdateAsync(UpdateBrandRequestModel model)
         {
-            var brandDto = _brandMaper.MapToDto(brandModel);
+            var brandDto = BrandModelMapper.MapToUpdateRequestDto(model);
             await _brandService.UpdateAsync(brandDto);
             return new SuccessResult();
         }

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto
+namespace Dto.Request
 {
-    public interface IDto
+    public class CategorieRequestDto
     {
+        public string CategorieName { get; set; }
     }
 }

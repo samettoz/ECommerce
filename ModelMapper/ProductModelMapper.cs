@@ -1,39 +1,65 @@
-﻿using Dto;
-using Model;
+﻿using Dto.Request;
+using Dto.Response;
+using Model.Request;
+using Model.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ModelMapper
 {
-    public class ProductModelMapper : IModelMapper<ProductModel, ProductDto>
+    public static class ProductModelMapper 
     {
-        public ProductDto MapToDto(ProductModel model)
+        public static ProductRequestDto MapToDto(ProductRequestModel model)
         {
-            return new ProductDto
+            if (model == null)
+                return null;
+
+            
+            return new ProductRequestDto
             {
+                ProductName = model.ProductName,
                 BrandId = model.BrandId,
                 CategoryId = model.CategoryId,
-                Id = model.Id,
-                ProductName = model.ProductName,
-                QuantityPerUnit = model.QuantityPerUnit,
-                UnitPrice = model.UnitPrice
+                UnitPrice = model.UnitPrice,
+                QuantityPerUnit = model.QuantityPerUnit
             };
         }
 
-        public ProductModel MapToModel(ProductDto dto)
+        public static ProductResponseModel MapToModel(ProductResponseDto dto)
         {
-            return new ProductModel
-            {
-                UnitPrice = dto.UnitPrice,
-                QuantityPerUnit = dto.QuantityPerUnit,
-                ProductName = dto.ProductName,
-                Id = dto.Id,
-                CategoryId = dto.CategoryId,
-                BrandId = dto.BrandId
+            if (dto == null)
+                return null;
 
+
+            return new ProductResponseModel
+            {
+                Id = dto.Id,
+                ProductName = dto.ProductName,
+                BrandId = dto.BrandId,
+                CategoryId = dto.CategoryId,
+                UnitPrice = dto.UnitPrice,
+                QuantityPerUnit = dto.QuantityPerUnit
+
+            };
+        }
+
+        public static UpdateProductRequestDto MaptoUpdateRequestDto(UpdateProductRequestModel model)
+        {
+            if (model == null)
+                return null;
+
+            return new UpdateProductRequestDto
+            {
+                Id = model.Id,
+                ProductName = model.ProductName,
+                BrandId = model.BrandId,
+                CategoryId = model.CategoryId,
+                UnitPrice = model.UnitPrice,
+                QuantityPerUnit = model.QuantityPerUnit
             };
         }
     }

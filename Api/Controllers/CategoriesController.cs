@@ -2,8 +2,9 @@
 using IResult = Core.Utility.Results.IResult;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model;
 using Core.Utility.Results;
+using Model.Response;
+using Model.Request;
 
 namespace Api.Controllers
 {
@@ -18,21 +19,21 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IDataResult<List<CategorieModel>>> GetAll()
+        public async Task<IDataResult<List<CategorieResponseModel>>> GetAll()
         {
             return await _categorieBusiness.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<IDataResult<CategorieModel>> GetById(int id)
+        public async Task<IDataResult<CategorieResponseModel>> GetById(int id)
         {
             return await _categorieBusiness.GetById(id);
         }
 
         [HttpPost]
-        public async Task<IResult> AddAsync(CategorieModel categorieModel)
+        public async Task<IResult> AddAsync(CategorieRequestModel model)
         {
-            return await _categorieBusiness.AddAsync(categorieModel);
+            return await _categorieBusiness.AddAsync(model);
         }
 
         [HttpDelete]
@@ -42,9 +43,9 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IResult> Update(CategorieModel categorieModel)
+        public async Task<IResult> Update(UpdateCategorieRequestModel model)
         {
-            return await _categorieBusiness.UpdateAsync(categorieModel);
+            return await _categorieBusiness.UpdateAsync(model);
         }
     }
 }

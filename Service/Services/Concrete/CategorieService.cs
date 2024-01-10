@@ -2,7 +2,8 @@
 
 using Core.Repository;
 using Core.Utility.Results;
-using Dto;
+using Dto.Request;
+using Dto.Response;
 using DtoMapper;
 using Entity;
 using Service.Services.Abstract;
@@ -12,16 +13,14 @@ namespace Service.Services.Concrete
     public class CategorieService : ICategorieService
     {
         IEntityRepositoryBase<Categorie> _categorieRepository;
-        IDtoMapper<CategorieDto, Categorie> _dtoMapper;
-        public CategorieService(IEntityRepositoryBase<Categorie> categorieRepository, IDtoMapper<CategorieDto, Categorie> dtoMapper)
+        public CategorieService(IEntityRepositoryBase<Categorie> categorieRepository)
         {
             _categorieRepository = categorieRepository;
-            _dtoMapper = dtoMapper;
         }
 
-        public async Task AddAsync(CategorieDto categorieDto)
+        public async Task AddAsync(CategorieRequestDto dto)
         {
-            var categorie = _dtoMapper.MapToEntity(categorieDto);
+            var categorie = CategorieDtoMapper.MapToEntity(dto);
             await _categorieRepository.AddAsync(categorie);
             
         }
@@ -31,21 +30,21 @@ namespace Service.Services.Concrete
             await _categorieRepository.DeleteAsync(id);
         }
 
-        public async Task<List<CategorieDto>> GetAllAsync()
+        public async Task<List<CategorieResponseDto>> GetAllAsync()
         {
             var categories = await _categorieRepository.GetAllAsync();
-            return  categories.Select(categorie => _dtoMapper.MapToDto(categorie)).ToList();
+            return  categories.Select(categorie => CategorieDtoMapper.MapToDto(categorie)).ToList();
         }
 
-        public async Task<CategorieDto> GetByIdAsync(int id)
+        public async Task<CategorieResponseDto> GetByIdAsync(int id)
         {
             var categorie = await _categorieRepository.GetAsync(c => c.Id == id);
-            return _dtoMapper.MapToDto(categorie);
+            return CategorieDtoMapper.MapToDto(categorie);
         }
 
-        public async Task UpdateAsync(CategorieDto categorieDto)
+        public async Task UpdateAsync(UpdateCategorieRequestDto dto)
         {
-            var categorie = _dtoMapper.MapToEntity(categorieDto);
+            var categorie = CategorieDtoMapper.MapUpdateCategorieRequestDtoToEntity(dto);
             await _categorieRepository.UpdateAsync(categorie);
         }
     }

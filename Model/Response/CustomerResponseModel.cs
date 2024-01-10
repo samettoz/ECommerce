@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto
+namespace Model.Response
 {
-    public class CustomerDto : IDto
+    public class CustomerResponseModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

@@ -1,26 +1,45 @@
-﻿using Dto;
+﻿using Dto.Request;
+using Dto.Response;
 using Entity;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DtoMapper
 {
-    public class BrandDtoMapper : IDtoMapper<BrandDto, Brand>
+    public static class BrandDtoMapper 
     {
-        public BrandDto MapToDto(Brand entity)
+        public static BrandResponseDto MapToDto(Brand entity)
         {
-            return new BrandDto
+            if (entity == null)
+                return null;
+            
+            return new BrandResponseDto
             {
                 BrandName = entity.BrandName,
                 Id = entity.Id
             };
         }
 
-        public Brand MapToEntity(BrandDto dto)
+        public static Brand MapToEntity(BrandRequestDto dto)
         {
+            if (dto == null)
+                return null;
+
+            return new Brand
+            {
+                BrandName = dto.BrandName
+            };
+        }
+
+        public static Brand MapUpdateBrandRequestDtoToEntity(UpdateBrandRequestDto dto)
+        {
+            if (dto == null)
+                return null;
+
             return new Brand
             {
                 Id = dto.Id,

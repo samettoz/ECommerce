@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model
+namespace Model.Request
 {
-    public class OrderDetailModel : IModel
+    public class OrderDetailRequestModel
     {
-        public int Id { get; set; }
         public int OrderId { get; set; }
         public int ProductId { get; set; }
         public int UnitPrice { get; set; }

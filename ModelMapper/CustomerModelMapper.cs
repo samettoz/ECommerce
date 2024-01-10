@@ -1,5 +1,8 @@
-﻿using Dto;
+﻿using Dto.Request;
+using Dto.Response;
 using Model;
+using Model.Request;
+using Model.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,26 +12,31 @@ using System.Threading.Tasks;
 
 namespace ModelMapper
 {
-    public class CustomerModelMapper : IModelMapper<CustomerModel, CustomerDto>
+    public static class CustomerModelMapper 
     {
-        public CustomerDto MapToDto(CustomerModel model)
+        public static CustomerRequestDto MapToDto(CustomerRequestModel model)
         {
-            return new CustomerDto
+            if (model == null)
+                return null;
+
+            return new CustomerRequestDto
             {
                 Adress = model.Adress,
                 City = model.City,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Id = model.Id,
                 Password = model.Password,
                 Phone = model.Phone,
                 UserName = model.UserName
             }; 
         }
 
-        public CustomerModel MapToModel(CustomerDto dto)
+        public static CustomerResponseModel MapToModel(CustomerResponseDto dto)
         {
-            return new CustomerModel
+            if (dto == null)
+                return null;
+
+            return new CustomerResponseModel
             {
                 UserName = dto.UserName,
                 Phone = dto.Phone,
@@ -38,6 +46,23 @@ namespace ModelMapper
                 LastName = dto.LastName,
                 Adress = dto.Adress,
                 City = dto.City
+            };
+        }
+
+        public static UpdateCustomerRequestDto MapToUpdateRequestDto(UpdateCustomerRequestModel model)
+        {
+            if (model == null)
+                return null;
+
+            return new UpdateCustomerRequestDto
+            {
+                Id = model.Id,
+                Adress = model.Adress,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Password = model.Password,
+                Phone = model.Phone,
+                UserName = model.UserName
             };
         }
     }

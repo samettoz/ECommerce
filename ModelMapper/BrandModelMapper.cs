@@ -1,5 +1,7 @@
-﻿using Dto;
-using Model;
+﻿using Dto.Request;
+using Dto.Response;
+using Model.Request;
+using Model.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,23 +10,40 @@ using System.Threading.Tasks;
 
 namespace ModelMapper
 {
-    public class BrandModelMapper : IModelMapper<BrandModel, BrandDto>
+    public static class BrandModelMapper 
     {
-        public BrandDto MapToDto(BrandModel model)
+        public static BrandRequestDto MapToDto(BrandRequestModel model)
         {
-            return new BrandDto
+            if (model == null)
+                return null;
+
+            return new BrandRequestDto
             {
                 BrandName = model.BrandName,
-                Id = model.Id
             };
         }
 
-        public BrandModel MapToModel(BrandDto dto)
+        public static BrandResponseModel MapToModel(BrandResponseDto dto)
         {
-            return new BrandModel
+            if (dto == null)
+                return null;
+
+            return new BrandResponseModel
             {
                 Id = dto.Id,
                 BrandName = dto.BrandName,
+            };
+        }
+
+        public static UpdateBrandRequestDto MapToUpdateRequestDto(UpdateBrandRequestModel model)
+        {
+            if (model == null)
+                return null;
+
+            return new UpdateBrandRequestDto
+            {
+                Id = model.Id,
+                BrandName = model.BrandName
             };
         }
     }

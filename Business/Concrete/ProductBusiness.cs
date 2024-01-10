@@ -3,7 +3,8 @@ using Business.Abstract;
 using Core.Utility.Results;
 using Dto;
 using Entity;
-using Model;
+using Model.Request;
+using Model.Response;
 using ModelMapper;
 using Service.Services.Abstract;
 using System;
@@ -17,17 +18,15 @@ namespace Business.Concrete
     public class ProductBusiness : IProductBusiness
     {
         IProductService _productService;
-        IModelMapper<ProductModel, ProductDto> _modelMapper;
 
-        public ProductBusiness(IProductService productService, IModelMapper<ProductModel, ProductDto> modelMapper)
+        public ProductBusiness(IProductService productService)
         {
             _productService = productService;
-            _modelMapper = modelMapper;
         }
 
-        public async Task<IResult> AddAsync(ProductModel productModel)
+        public async Task<IResult> AddAsync(ProductRequestModel model)
         {
-            var dto = _modelMapper.MapToDto(productModel);
+            var dto = ProductModelMapper.MapToDto(model);
             await _productService.AddAsync(dto);
             return new SuccessResult(); 
         }
@@ -38,22 +37,22 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<List<ProductModel>>> GetAllAsync()
+        public async Task<IDataResult<List<ProductResponseModel>>> GetAllAsync()
         {
             var productDtos = await _productService.GetAllAsync();
-            var productModels = productDtos.Select(pd => _modelMapper.MapToModel(pd)).ToList();
-            return new SuccessDataResult<List<ProductModel>>(productModels);
+            var productModels = productDtos.Select(pd => ProductModelMapper.MapToModel(pd)).ToList();
+            return new SuccessDataResult<List<ProductResponseModel>>(productModels);
         }
 
-        public async Task<IDataResult<ProductModel>> GetByIdAsync(int id)
+        public async Task<IDataResult<ProductResponseModel>> GetByIdAsync(int id)
         {
             var productDto = await _productService.GetByIdAsync(id);
-            return new SuccessDataResult<ProductModel>(_modelMapper.MapToModel(productDto));
+            return new SuccessDataResult<ProductResponseModel>(ProductModelMapper.MapToModel(productDto));
         }
 
-        public async Task<IResult> UpdateAsync(ProductModel productModel)
+        public async Task<IResult> UpdateAsync(UpdateProductRequestModel model)
         {
-            var productDto = _modelMapper.MapToDto(productModel);
+            var productDto = ProductModelMapper.MaptoUpdateRequestDto(model);
             await _productService.UpdateAsync(productDto);
             return new SuccessResult();
         }
